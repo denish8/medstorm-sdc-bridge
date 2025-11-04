@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>sdc-ri</artifactId>
+        <groupId>org.somda.sdc</groupId>
+        <version>5.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>biceps</artifactId>
+
+    <name>BICEPS</name>
+    <description>
+        SDCri is a set of Java libraries that implements a network communication framework conforming
+        with the IEEE 11073 SDC specifications. This project implements the functionality described in
+        IEEE 11073-10207.
+    </description>
+    <url>http://www.somda.org</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>David Gregorczyk</name>
+            <email>david.gregorczyk@web.de</email>
+            <organizationUrl>https://gitlab.com/d.gregorczyk</organizationUrl>
+        </developer>
+        <developer>
+            <name>Lukas Deichmann</name>
+            <email>lukasdeichmann@gmail.com</email>
+            <organizationUrl>https://gitlab.com/ldeichmann</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://gitlab.com/sdc-suite/sdc-ri.git</connection>
+        <developerConnection>scm:git:git://gitlab.com/sdc-suite/sdc-ri.git</developerConnection>
+        <url>https://gitlab.com/sdc-suite/sdc-ri/-/tree/develop</url>
+        <tag>sdc-ri-5.0.0</tag>
+    </scm>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.somda.sdc</groupId>
+            <artifactId>common</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.somda.sdc</groupId>
+            <artifactId>biceps-model</artifactId>
+            <version>${riModelVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.somda.sdc</groupId>
+            <artifactId>test</artifactId>
+            <version>5.0.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${mavenJarPluginVersion}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

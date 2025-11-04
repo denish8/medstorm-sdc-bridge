@@ -1,0 +1,44 @@
+﻿# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Spring Boot fat-jar output
+BOOT-INF/
+*.jar
+*.war
+
+# Logs & temp
+logs/
+tmp/
+temp/
+*.log
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.code-workspace
+.project
+.classpath
+.settings/
+
+# Python venv
+.venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local certs / keystores / secrets
+certs/
+ref_ca/
+dev-keystore.p12
+
+# SDC runtime scratch
+sdc11073/
+sdc-commlog/
+sdc-commlog/**
+
+# If you keep vendor jars under libs/, keep them, but skip disabled bin-dumps
+libs/_disabled/

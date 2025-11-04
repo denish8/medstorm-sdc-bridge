@@ -1,0 +1,14 @@
+<S:Envelope xmlns:S="http://www.w3.org/2003/05/soap-envelope"
+            xmlns:wsa="http://www.w3.org/2005/08/addressing"
+            xmlns:mex="http://schemas.xmlsoap.org/ws/2004/09/mex">
+    <S:Header>
+        <wsa:MessageID>urn:uuid:84dcee5c-50ed-4038-9c32-3ce92c3b7814</wsa:MessageID>
+        <wsa:To>urn:uuid:00000000-0000-0000-0000-000000000000</wsa:To>
+        <wsa:Action>http://schemas.xmlsoap.org/ws/2004/09/mex/GetMetadata/Request</wsa:Action>
+    </S:Header>
+    <S:Body>
+        <mex:GetMetadata>
+            <mex:Dialect>http://schemas.xmlsoap.org/wsdl/</mex:Dialect>
+        </mex:GetMetadata>
+    </S:Body>
+</S:Envelope>

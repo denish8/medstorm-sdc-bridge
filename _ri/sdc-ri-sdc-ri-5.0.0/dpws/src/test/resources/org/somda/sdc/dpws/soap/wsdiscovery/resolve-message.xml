@@ -1,0 +1,17 @@
+<s:Envelope
+        xmlns:a="http://www.w3.org/2005/08/addressing"
+        xmlns:d="http://docs.oasis-open.org/ws-dd/ns/discovery/2009/01"
+        xmlns:s="http://www.w3.org/2003/05/soap-envelope">
+    <s:Header>
+        <a:Action>http://docs.oasis-open.org/ws-dd/ns/discovery/2009/01/Resolve</a:Action>
+        <a:MessageID>http://msg-id/Resolve</a:MessageID>
+        <a:To>urn:docs-oasis-open-org:ws-dd:ns:discovery:2009:01</a:To>
+    </s:Header>
+    <s:Body>
+        <d:Resolve>
+            <a:EndpointReference>
+                <a:Address>http://expectedEpr-uri</a:Address>
+            </a:EndpointReference>
+        </d:Resolve>
+    </s:Body>
+</s:Envelope>

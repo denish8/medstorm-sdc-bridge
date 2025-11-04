@@ -1,0 +1,4 @@
+@ParametersAreNonnullByDefault
+package com.example.provider2_extension;
+
+import javax.annotation.ParametersAreNonnullByDefault;

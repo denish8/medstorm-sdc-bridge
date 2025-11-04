@@ -1,0 +1,5 @@
+rootProject.name = "sdc-bridge"
+
+
+include 'jaxb-compat'
+

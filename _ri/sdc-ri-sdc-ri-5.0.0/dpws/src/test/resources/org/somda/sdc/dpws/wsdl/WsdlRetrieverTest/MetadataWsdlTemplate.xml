@@ -1,0 +1,18 @@
+<s12:Envelope
+        xmlns:s12="http://www.w3.org/2003/05/soap-envelope"
+        xmlns:wsa10='http://www.w3.org/2005/08/addressing'
+        xmlns:mex='http://schemas.xmlsoap.org/ws/2004/09/mex'
+        xmlns:wsp='http://schemas.xmlsoap.org/ws/2004/09/policy'
+        xmlns:wsdl='http://schemas.xmlsoap.org/wsdl/'
+        xmlns:wse="http://schemas.xmlsoap.org/ws/2004/08/eventing">
+    <s12:Header>
+        <wsa10:Action>http://schemas.xmlsoap.org/ws/2004/09/transfer/GetResponse</wsa10:Action>
+        <wsa10:To>http://client.example.org</wsa10:To>
+        <wsa10:RelatesTo>urn:uuid:1cec121a-82fe-41da-87e1-3b23f254f128</wsa10:RelatesTo>
+    </s12:Header>
+    <s12:Body>
+        <mex:Metadata>
+            %s
+        </mex:Metadata>
+    </s12:Body>
+</s12:Envelope>

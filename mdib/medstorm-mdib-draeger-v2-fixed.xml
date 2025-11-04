@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<msg:GetMdibResponse xmlns:msg="http://standards.ieee.org/downloads/11073/11073-10207-2017/message"
+  xmlns:pm="http://standards.ieee.org/downloads/11073/11073-10207-2017/participant"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  SequenceId="urn:oid:medstorm-seq-2">
+  <msg:Mdib SequenceId="urn:oid:medstorm-seq-2">
+    <pm:MdDescription>
+      <pm:Mds Handle="mds0" SafetyClassification="MedA">
+        <pm:SystemContext Handle="SC.mds0">
+          <pm:PatientContext Handle="PC.mds0" SafetyClassification="MedA"/>
+          <pm:LocationContext Handle="LC.mds0"/>
+          <pm:EnsembleContext Handle="EC.Loc.mds0"/>
+        </pm:SystemContext>
+        <pm:Clock Handle="CL.mds0" Resolution="PT0.001S" SafetyClassification="Inf"/>
+        <pm:Vmd Handle="vmd.indices" SafetyClassification="MedA">
+          <pm:Channel Handle="ch.indices" SafetyClassification="MedA">
+            <pm:Metric Handle="numeric.pain"       SafetyClassification="MedA" xsi:type="pm:NumericMetricDescriptor" MetricCategory="Msrmt" MetricAvailability="Cont" Resolution="1"><pm:Unit Code="262656"/><pm:TechnicalRange Lower="0" Upper="10"  StepWidth="1"/></pm:Metric>
+            <pm:Metric Handle="numeric.awk"        SafetyClassification="MedA" xsi:type="pm:NumericMetricDescriptor" MetricCategory="Msrmt" MetricAvailability="Cont" Resolution="1"><pm:Unit Code="264864"/><pm:TechnicalRange Lower="0" Upper="100" StepWidth="1"/></pm:Metric>
+            <pm:Metric Handle="numeric.nbv"        SafetyClassification="MedA" xsi:type="pm:NumericMetricDescriptor" MetricCategory="Msrmt" MetricAvailability="Cont" Resolution="1"><pm:Unit Code="262656"/><pm:TechnicalRange Lower="0" Upper="10"  StepWidth="1"/></pm:Metric>
+            <pm:Metric Handle="numeric.badsignal"  SafetyClassification="MedA" xsi:type="pm:NumericMetricDescriptor" MetricCategory="Msrmt" MetricAvailability="Cont" Resolution="1"><pm:Unit Code="262656"/><pm:TechnicalRange Lower="0" Upper="1"   StepWidth="1"/></pm:Metric>
+            <pm:Metric Handle="numeric.sc"         SafetyClassification="MedA" xsi:type="pm:NumericMetricDescriptor" MetricCategory="Msrmt" MetricAvailability="Cont" Resolution="0.1"><pm:Unit Code="264928"/><pm:TechnicalRange Lower="0" Upper="250" StepWidth="0.1"/></pm:Metric>
+          </pm:Channel>
+        </pm:Vmd>
+      </pm:Mds>
+    </pm:MdDescription>
+    <pm:MdState>
+      <pm:State DescriptorHandle="numeric.pain"      xsi:type="pm:NumericMetricState"/>
+      <pm:State DescriptorHandle="numeric.awk"       xsi:type="pm:NumericMetricState"/>
+      <pm:State DescriptorHandle="numeric.nbv"       xsi:type="pm:NumericMetricState"/>
+      <pm:State DescriptorHandle="numeric.badsignal" xsi:type="pm:NumericMetricState"/>
+      <pm:State DescriptorHandle="numeric.sc"        xsi:type="pm:NumericMetricState"/>
+    </pm:MdState>
+  </msg:Mdib>
+</msg:GetMdibResponse>
+

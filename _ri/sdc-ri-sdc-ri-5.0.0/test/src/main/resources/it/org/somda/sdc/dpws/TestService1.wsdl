@@ -1,0 +1,114 @@
+<!--
+    Service to test general DPWS hosted service functions.
+
+    Default action pattern: [target namespace][delimiter][port type name][delimiter][input|output name]
+    https://www.w3.org/TR/2006/CR-ws-addr-wsdl-20060529/#defactionwsdl11
+-->
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:msg="http://dpws-test-service/messages/2017/05/10"
+                  xmlns:s12="http://schemas.xmlsoap.org/wsdl/soap12/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:wsp="http://www.w3.org/ns/ws-policy"
+                  xmlns:wse="http://schemas.xmlsoap.org/ws/2004/08/eventing"
+                  xmlns:dpws="http://docs.oasis-open.org/ws-dd/ns/dpws/2009/01"
+                  xmlns:tns="http://dpws-test-service/2017/05/10"
+                  targetNamespace="http://dpws-test-service/2017/05/10">
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://dpws-test-service/messages/2017/05/10" elementFormDefault="qualified"
+                    attributeFormDefault="unqualified" xml:lang="en">
+            <xsd:element name="TestOperationRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Param1" type="xsd:string"/>
+                        <xsd:element name="Param2" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="TestOperationResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Result1" type="xsd:string"/>
+                        <xsd:element name="Result2" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="TestNotification">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Param1" type="xsd:string"/>
+                        <xsd:element name="Param2" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="TestOperationRequest">
+        <wsdl:part name="parameters" element="msg:TestOperationRequest"/>
+    </wsdl:message>
+    <wsdl:message name="TestOperationResponse">
+        <wsdl:part name="parameters" element="msg:TestOperationResponse"/>
+    </wsdl:message>
+    <wsdl:message name="TestNotification">
+        <wsdl:part name="parameters" element="msg:TestNotification"/>
+    </wsdl:message>
+    <wsdl:portType name="TestPortType1" wse:EventSource="true" dpws:DiscoveryType="tns:DpwsTest">
+        <wsdl:operation name="TestOperation">
+            <wsdl:input message="tns:TestOperationRequest"/>
+            <wsdl:output message="tns:TestOperationResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="TestNotification">
+            <wsdl:output message="tns:TestNotification"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="TestPortType2" wse:EventSource="true" dpws:DiscoveryType="tns:DpwsTest">
+        <wsdl:operation name="TestOperation">
+            <wsdl:input message="tns:TestOperationRequest"/>
+            <wsdl:output message="tns:TestOperationResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="TestNotification">
+            <wsdl:output message="tns:TestNotification"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="TestBinding1" type="tns:TestPortType1">
+        <wsp:Policy>
+            <dpws:Profile wsp:Optional="true"/>
+        </wsp:Policy>
+        <s12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="TestOperation">
+            <s12:operation soapAction="http://dpws-test-service/2017/05/10/TestPortType1/TestOperation"/>
+            <wsdl:input>
+                <s12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <s12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="TestNotification">
+            <s12:operation soapAction="http://dpws-test-service/2017/05/10/TestPortType1/TestNotification"/>
+            <wsdl:output>
+                <s12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="TestBinding2" type="tns:TestPortType2">
+        <wsp:Policy>
+            <dpws:Profile wsp:Optional="true"/>
+        </wsp:Policy>
+        <s12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="TestOperation">
+            <s12:operation soapAction="http://dpws-test-service/2017/05/10/TestPortType2/TestOperation"/>
+            <wsdl:input>
+                <s12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <s12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="TestNotification">
+            <s12:operation soapAction="http://dpws-test-service/2017/05/10/TestPortType2/TestNotification"/>
+            <wsdl:output>
+                <s12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+</wsdl:definitions>

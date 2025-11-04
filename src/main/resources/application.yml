@@ -1,0 +1,19 @@
+﻿server:
+  port: 8080
+
+bridge:
+  mdibPath: "C:/MedStorm/sdc-bridge/mdib/medstorm-mdib-draeger-v2-fixed.xml"
+
+sdc:
+  enabled: true
+  host: 192.168.10.134     # your Wi-Fi IP from ipconfig
+  udpPort: 3702
+  httpPort: 8080
+  deviceEpr: "urn:uuid:medstorm-device-1"
+
+  tls:
+    enabled: true
+    keystore: "C:/MedStorm/sdc-bridge/certs/device.jks"
+    keystorePassword: "changeit"
+    truststore: "C:/MedStorm/sdc-bridge/certs/truststore.jks"
+    truststorePassword: "changeit"

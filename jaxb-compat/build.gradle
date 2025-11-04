@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+group = 'local'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // spring boot 3 uses jakarta.*, so use jakarta here too
+    compileOnly 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}

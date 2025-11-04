@@ -1,0 +1,83 @@
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msg="urn:demo:message"
+				  xmlns:s12="http://schemas.xmlsoap.org/wsdl/soap12/"
+				  xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+				  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsp="http://www.w3.org/ns/ws-policy"
+				  xmlns:srv="urn:demo:service"
+				  targetNamespace="urn:demo:service">
+	<wsdl:types>
+		<xsd:schema targetNamespace="urn:demo:message" elementFormDefault="qualified"
+					attributeFormDefault="unqualified" xml:lang="en">
+
+			<xsd:element name="SampleRequestResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Param1" type="xsd:string"/>
+						<xsd:element name="Param2" type="xsd:int"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="SampleRequestResponseResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Result1" type="xsd:string"/>
+						<xsd:element name="Result2" type="xsd:int"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="SampleNotification">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Param1" type="xsd:string"/>
+						<xsd:element name="Param2" type="xsd:int"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="SampleRequestResponse">
+		<wsdl:part name="parameters" element="msg:SampleRequestResponse"/>
+	</wsdl:message>
+	<wsdl:message name="SampleRequestResponseResponse">
+		<wsdl:part name="parameters" element="msg:SampleRequestResponseResponse"/>
+	</wsdl:message>
+	<wsdl:message name="SampleNotification">
+		<wsdl:part name="parameters" element="msg:SampleNotification"/>
+	</wsdl:message>
+
+	<wsdl:portType xmlns:wse="http://schemas.xmlsoap.org/ws/2004/08/eventing" wse:EventSource="true"
+				   xmlns:dpws="http://docs.oasis-open.org/ws-dd/ns/dpws/2009/01"
+				   xmlns:srv="http://service/2016-11-11" name="SamplePortType" dpws:DiscoveryType="srv:Sample">
+		<wsdl:operation name="SampleRequestResponseOperation">
+			<wsdl:input message="msg:SampleRequestResponse"
+						wsam:Action="http://messages/2016-11-11/SampleRequestResponseOperation"/>
+			<wsdl:output message="msg:SampleRequestResponseResponse"
+						 wsam:Action="http://messages/2016-11-11/SampleRequestResponseResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="SampleNotification">
+			<wsdl:output message="msg:SampleNotification"
+						 wsam:Action="http://messages/2016-11-11/SampleNotification"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="SampleBinding" type="srv:Sample">
+		<s12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="SampleRequestResponseOperation">
+			<s12:operation soapAction="http://service/2016-11-11/SampleRequestResponseOperation"/>
+			<wsdl:input>
+				<s12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<s12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="SampleNotification">
+			<s12:operation soapAction="http://service/2016-11-11/SampleNotification"/>
+			<wsdl:output>
+				<s12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsp:Policy xmlns:dpws="http://docs.oasis-open.org/ws-dd/ns/dpws/2009/01">
+		<dpws:Profile wsp:Optional="true"/>
+	</wsp:Policy>
+</wsdl:definitions>

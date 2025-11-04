@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
+        "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+
+<module name="Checker">
+    <property name="severity" value="error"/>
+
+    <module name="SuppressWarningsFilter"/>
+
+    <!-- forbid tabs -->
+    <module name="FileTabCharacter">
+        <property name="eachLine" value="true"/>
+    </module>
+    <module name="LineLength">
+        <property name="max" value="120"/>
+    </module>
+
+    <module name="JavadocPackage"/>
+
+    <module name="TreeWalker">
+        <!-- allows disabling checkstyle for certain expressions-->
+        <module name="SuppressionCommentFilter">
+            <property name="offCommentFormat" value="CHECKSTYLE.OFF\: ([\w\|]+)"/>
+            <property name="onCommentFormat" value="CHECKSTYLE.ON\: ([\w\|]+)"/>
+            <property name="checkFormat" value="$1"/>
+        </module>
+
+        <module name="SuppressWarningsHolder"/>
+        <property name="tabWidth" value="4"/>
+        <module name="AvoidStarImport">
+            <property name="allowStaticMemberImports" value="false"/>
+        </module>
+        <module name="ConstantName"/>
+        <module name="MemberName"/>
+        <module name="MethodName"/>
+        <module name="PackageName"/>
+        <module name="ParameterName"/>
+        <module name="StaticVariableName"/>
+        <module name="TypeName"/>
+        <module name="LocalVariableName"/>
+        <module name="ClassTypeParameterName">
+            <property name="format" value="^[A-Z]+$"/>
+        </module>
+        <module name="MethodTypeParameterName">
+            <property name="format" value="^[a-zA-Z]+$"/>
+        </module>
+        <module name="EmptyBlock"/>
+
+        <module name="ParameterNumber">
+            <property name="max" value="7"/>
+            <property name="tokens" value="METHOD_DEF"/>
+        </module>
+        <!-- No public members allowed -->
+        <module name="VisibilityModifier"/>
+        <module name="ArrayTrailingComma"/>
+        <module name="CovariantEquals"/>
+        <module name="EqualsAvoidNull"/>
+        <module name="EqualsHashCode"/>
+        <module name="HiddenField">
+            <property name="tokens" value="VARIABLE_DEF"/>
+        </module>
+        <module name="IllegalToken">
+            <property name="tokens" value="LITERAL_NATIVE"/>
+        </module>
+        <module name="InnerAssignment">
+            <property name="tokens" value="ASSIGN,PLUS_ASSIGN,MINUS_ASSIGN"/>
+        </module>
+        <module name="MissingSwitchDefault"/>
+        <module name="ModifiedControlVariable"/>
+        <module name="SimplifyBooleanExpression"/>
+        <module name="SimplifyBooleanReturn"/>
+        <module name="StringLiteralEquality"/>
+        <module name="NestedIfDepth">
+            <property name="max" value="3"/>
+        </module>
+        <module name="NestedTryDepth">
+            <property name="max" value="3"/>
+        </module>
+        <module name="NoClone"/>
+        <module name="IllegalCatch"/>
+        <module name="IllegalThrows"/>
+        <module name="PackageDeclaration"/>
+        <module name="DeclarationOrder"/>
+        <module name="ParameterAssignment"/>
+        <module name="DefaultComesLast"/>
+        <module name="UnnecessaryParentheses"/>
+
+        <!-- configure javadoc -->
+        <module name="JavadocMethod">
+            <property name="scope" value="public"/>
+        </module>
+        <module name="MissingJavadocMethod">
+            <property name="scope" value="public"/>
+            <!-- allow getters without javadoc -->
+            <property name="ignoreMethodNamesRegex" value="^get.*$"/>
+            <!-- allow constructors without javadoc -->
+            <property name="tokens" value="METHOD_DEF, ANNOTATION_FIELD_DEF"/>
+
+        </module>
+        <module name="JavadocStyle">
+            <property name="scope" value="public"/>
+            <property name="checkHtml" value="false"/>
+        </module>
+        <module name="JavadocType"/>
+        <module name="MissingJavadocType"/>
+        <module name="NonEmptyAtclauseDescription"/>
+
+        <module name="EmptyForIteratorPad"/>
+        <module name="MethodParamPad"/>
+        <module name="NoWhitespaceAfter"/>
+        <module name="NoWhitespaceBefore"/>
+        <module name="ParenPad"/>
+        <module name="TypecastParenPad"/>
+        <module name="WhitespaceAfter">
+            <property name="tokens" value="COMMA, SEMI, TYPECAST"/>
+        </module>
+        <module name="WhitespaceAround">
+            <property name="tokens" value="ASSIGN, BAND, BAND_ASSIGN, BOR,
+            BOR_ASSIGN, BSR, BSR_ASSIGN, BXOR, BXOR_ASSIGN, COLON, DIV,
+            DIV_ASSIGN, EQUAL, GE, GT, LAND, LE, LITERAL_ASSERT,
+            LITERAL_CATCH, LITERAL_DO, LITERAL_ELSE, LITERAL_FINALLY,
+            LITERAL_FOR, LITERAL_IF, LITERAL_RETURN, LITERAL_SYNCHRONIZED,
+            LITERAL_TRY, LITERAL_WHILE, LOR, LT, MINUS, MINUS_ASSIGN, MOD,
+            MOD_ASSIGN, NOT_EQUAL, PLUS, PLUS_ASSIGN, QUESTION, SL,
+            SLIST, SL_ASSIGN, SR, SR_ASSIGN, STAR, STAR_ASSIGN,
+            TYPE_EXTENSION_AND"/>
+            <property name="allowEmptyConstructors" value="true"/>
+        </module>
+        <module name="EmptyCatchBlock"/>
+        <module name="UnusedImports"/>
+    </module>
+</module>

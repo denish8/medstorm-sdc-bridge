@@ -1,0 +1,18 @@
+<s:Envelope
+        xmlns:a="http://www.w3.org/2005/08/addressing"
+        xmlns:d="http://docs.oasis-open.org/ws-dd/ns/discovery/2009/01"
+        xmlns:s="http://www.w3.org/2003/05/soap-envelope">
+    <s:Header>
+        <a:Action>http://docs.oasis-open.org/ws-dd/ns/discovery/2009/01/Bye</a:Action>
+        <a:MessageID>http://msg-id/Bye</a:MessageID>
+        <a:To>urn:docs-oasis-open-org:ws-dd:ns:discovery:2009:01</a:To>
+        <d:AppSequence InstanceId="1077004800" MessageNumber="4"/>
+    </s:Header>
+    <s:Body>
+        <d:Bye>
+            <a:EndpointReference>
+                <a:Address>urn:uuid:98190dc2-0890-4ef8-ac9a-5940995e6119</a:Address>
+            </a:EndpointReference>
+        </d:Bye>
+    </s:Body>
+</s:Envelope>

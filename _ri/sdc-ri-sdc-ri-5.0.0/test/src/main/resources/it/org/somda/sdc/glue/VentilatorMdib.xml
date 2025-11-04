@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<msg:GetMdibResponse xmlns:ext="http://standards.ieee.org/downloads/11073/11073-10207-2017/extension" xmlns:pm="http://standards.ieee.org/downloads/11073/11073-10207-2017/participant" xmlns:msg="http://standards.ieee.org/downloads/11073/11073-10207-2017/message" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" SequenceId="urn:uuid:77548546-9e9b-49b6-97d2-7a8d76b4c0bb">
+	<msg:Mdib SequenceId="urn:uuid:516a4e43-7cff-4232-a7f4-febeac6e8d59">
+		<pm:MdDescription>
+			<pm:Mds Handle="handle_MDC_DEV_SYS_PT_VENT_MDS">
+				<ext:Extension>
+					<msg:Retrievability>
+						<msg:By Method="Get"/>
+						<msg:By Method="Ep"/>
+					</msg:Retrievability>
+				</ext:Extension>
+				<pm:Type Code="70001" SymbolicCodeName="MDC_DEV_SYS_PT_VENT_MDS"/>
+				<pm:AlertSystem Handle="handle_AlertSystem">
+					<ext:Extension>
+						<msg:Retrievability>
+							<msg:By Method="Get"/>
+							<msg:By Method="Ep"/>
+						</msg:Retrievability>
+					</ext:Extension>
+					<pm:AlertCondition Handle="handle_bad_MDC_DEV_SYS_PT_VENT_VMD" Kind="Tec" Priority="None">
+						<ext:Extension>
+							<msg:Retrievability>
+								<msg:By Method="Get"/>
+								<msg:By Method="Ep"/>
+							</msg:Retrievability>
+						</ext:Extension>
+						<pm:Type Code="ventilator-mode-bad" CodingSystem="urn:integrationtest:codingsystem"/>
+					</pm:AlertCondition>
+					<pm:AlertSignal Handle="handle_vis_bad_MDC_DEV_SYS_PT_VENT_VMD" Manifestation="Vis" Latching="false" ConditionSignaled="handle_bad_MDC_DEV_SYS_PT_VENT_VMD">
+						<ext:Extension>
+							<msg:Retrievability>
+								<msg:By Method="Get"/>
+								<msg:By Method="Ep"/>
+							</msg:Retrievability>
+						</ext:Extension>
+					</pm:AlertSignal>
+				</pm:AlertSystem>
+				<pm:Sco Handle="handle_Sco">
+					<ext:Extension>
+						<msg:Retrievability>
+							<msg:By Method="Get"/>
+							<msg:By Method="Ep"/>
+						</msg:Retrievability>
+					</ext:Extension>
+					<pm:Operation xsi:type="pm:SetStringOperationDescriptor" Handle="handle_set_MDC_DEV_SYS_PT_VENT_VMD" OperationTarget="handle_MDC_DEV_SYS_PT_VENT_VMD">
+						<pm:Type Code="genercic-set" CodingSystem="urn:integrationtest:codingsystem"/>
+					</pm:Operation>
+				</pm:Sco>
+				<pm:SystemContext Handle="handle_SystemContext">
+					<ext:Extension>
+						<msg:Retrievability>
+							<msg:By Method="Get"/>
+							<msg:By Method="Ep"/>
+						</msg:Retrievability>
+					</ext:Extension>
+					<pm:LocationContext Handle="handle_LocationContext">
+						<ext:Extension>
+							<msg:Retrievability>
+								<msg:By Method="Get"/>
+								<msg:By Method="Ep"/>
+							</msg:Retrievability>
+						</ext:Extension>
+					</pm:LocationContext>
+				</pm:SystemContext>
+				<pm:Clock Resolution="PT0.001S" Handle="handle_Clock">
+					<ext:Extension>
+						<msg:Retrievability>
+							<msg:By Method="Get"/>
+							<msg:By Method="Ep"/>
+						</msg:Retrievability>
+					</ext:Extension>
+					<pm:TimeProtocol Code="NTP" CodingSystem="http://test-coding-system"/>
+				</pm:Clock>
+				<pm:Vmd Handle="handle_MDC_DEV_SYS_PT_VENT_VMD" DescriptorVersion="0" SafetyClassification="MedA">
+					<ext:Extension>
+						<msg:Retrievability>
+							<msg:By Method="Get"/>
+							<msg:By Method="Ep"/>
+						</msg:Retrievability>
+					</ext:Extension>
+					<pm:Type Code="70002" SymbolicCodeName="MDC_DEV_SYS_PT_VENT_VMD"/>
+					<pm:Channel Handle="handle_MDC_DEV_SYS_PT_VENT_CHAN" DescriptorVersion="0" SafetyClassification="MedA">
+						<ext:Extension>
+							<msg:Retrievability>
+								<msg:By Method="Get"/>
+								<msg:By Method="Ep"/>
+							</msg:Retrievability>
+						</ext:Extension>
+						<pm:Type Code="70003" SymbolicCodeName="MDC_DEV_SYS_PT_VENT_CHAN"/>
+						<pm:Metric xsi:type="pm:EnumStringMetricDescriptor" MetricCategory="Set" DerivationMethod="Auto" MetricAvailability="Cont" Handle="handle_MDC_VENT_MODE">
+							<ext:Extension>
+								<msg:Retrievability>
+									<msg:By Method="Get"/>
+									<msg:By Method="Ep"/>
+								</msg:Retrievability>
+							</ext:Extension>
+							<pm:Type Code="184352" SymbolicCodeName="MDC_VENT_MODE"/>
+							<pm:Unit Code="262656" SymbolicCodeName="MDC_DIM_DIMLESS"/>
+							<pm:AllowedValue>
+								<pm:Value>vent-mode-cpap</pm:Value>
+							</pm:AllowedValue>
+							<pm:AllowedValue>
+								<pm:Value>vent-mode-simv</pm:Value>
+							</pm:AllowedValue>
+							<pm:AllowedValue>
+								<pm:Value>vent-mode-inspassist</pm:Value>
+							</pm:AllowedValue>
+						</pm:Metric>
+						<pm:Metric xsi:type="pm:NumericMetricDescriptor" Resolution="1" MetricCategory="Msrmt" DerivationMethod="Auto" MetricAvailability="Cont" DeterminationPeriod="PT1S" Handle="handle_MDC_PRESS_AWAY_END_EXP_POS">
+							<ext:Extension>
+								<msg:Retrievability>
+									<msg:By Method="Get"/>
+									<msg:By Method="Ep"/>
+								</msg:Retrievability>
+							</ext:Extension>
+							<pm:Type Code="151804" SymbolicCodeName="MDC_PRESS_AWAY_END_EXP_POS"/>
+							<pm:Unit Code="266048" SymbolicCodeName="MDC_DIM_CM_H2O"/>
+							<pm:TechnicalRange Lower="0" Upper="100" StepWidth="1"/>
+						</pm:Metric>
+					</pm:Channel>
+				</pm:Vmd>
+			</pm:Mds>
+		</pm:MdDescription>
+		<pm:MdState>
+			<pm:State xsi:type="pm:MdsState" Lang="en" OperatingMode="Dmo" ActivationState="On" DescriptorHandle="handle_MDC_DEV_SYS_PT_VENT_MDS"/>
+			<pm:State xsi:type="pm:ScoState" DescriptorHandle="handle_Sco" ActivationState="On"/>
+			<pm:State xsi:type="pm:SetStringOperationState" DescriptorHandle="handle_set_MDC_DEV_SYS_PT_VENT_VMD" OperatingMode="En"/>
+			<pm:State xsi:type="pm:AlertSystemState" DescriptorHandle="handle_AlertSystem" ActivationState="On"/>
+			<pm:State xsi:type="pm:AlertConditionState" DescriptorHandle="handle_bad_MDC_DEV_SYS_PT_VENT_VMD" ActivationState="On" Presence="false"/>
+			<pm:State xsi:type="pm:AlertSignalState" DescriptorHandle="handle_vis_bad_MDC_DEV_SYS_PT_VENT_VMD" ActivationState="On" Presence="Off"/>
+			<pm:State xsi:type="pm:ClockState" RemoteSync="true" TimeZone="CST6CDT,M3.2.0/2:00:00,M11.1.0/2:00:00" CriticalUse="false" ActivationState="On" DescriptorHandle="handle_Clock">
+				<pm:ActiveSyncProtocol Code="NTP" CodingSystem="http://test-coding-system"/>
+				<pm:ReferenceSource>0.de.pool.ntp.org</pm:ReferenceSource>
+			</pm:State>
+			<pm:State xsi:type="pm:SystemContextState" ActivationState="On" DescriptorHandle="handle_SystemContext"/>
+			<pm:State xsi:type="pm:VmdState" ActivationState="On" DescriptorHandle="handle_MDC_DEV_SYS_PT_VENT_VMD"/>
+			<pm:State xsi:type="pm:ChannelState" ActivationState="On" DescriptorHandle="handle_MDC_DEV_SYS_PT_VENT_CHAN"/>
+			<pm:State xsi:type="pm:EnumStringMetricState" ActivationState="On" DescriptorHandle="handle_MDC_VENT_MODE"/>
+			<pm:State xsi:type="pm:NumericMetricState" ActiveAveragingPeriod="PT15S" ActivationState="On" DescriptorHandle="handle_MDC_PRESS_AWAY_END_EXP_POS">
+				<pm:PhysiologicalRange Lower="0" Upper="50" StepWidth="1"/>
+			</pm:State>
+		</pm:MdState>
+	</msg:Mdib>
+</msg:GetMdibResponse>

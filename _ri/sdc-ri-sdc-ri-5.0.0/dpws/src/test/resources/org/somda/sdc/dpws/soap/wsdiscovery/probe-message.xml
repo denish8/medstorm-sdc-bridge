@@ -1,0 +1,19 @@
+<s:Envelope
+        xmlns:a="http://www.w3.org/2005/08/addressing"
+        xmlns:d="http://docs.oasis-open.org/ws-dd/ns/discovery/2009/01"
+        xmlns:i="http://namespace"
+        xmlns:s="http://www.w3.org/2003/05/soap-envelope">
+    <s:Header>
+        <a:Action>http://docs.oasis-open.org/ws-dd/ns/discovery/2009/01/Probe</a:Action>
+        <a:MessageID>http://msg-id/Probe</a:MessageID>
+        <a:To>urn:docs-oasis-open-org:ws-dd:ns:discovery:2009:01</a:To>
+    </s:Header>
+    <s:Body>
+        <d:Probe>
+            <d:Types>i:type</d:Types>
+            <d:Scopes MatchBy="http://docs.oasis-open.org/ws-dd/ns/discovery/2009/01/rfc3986">
+                http://namespace/scope
+            </d:Scopes>
+        </d:Probe>
+    </s:Body>
+</s:Envelope>

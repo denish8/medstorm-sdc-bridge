@@ -1,0 +1,83 @@
+variables:
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+cache:
+  paths:
+    - .m2/repository/
+
+build:11:
+  image: maven:3-eclipse-temurin-11
+  stage: build
+  script:
+    - mvn $MAVEN_CLI_OPTS compile -Dmaven.javadoc.skip=true
+
+build:17:
+  image: maven:3-eclipse-temurin-17
+  stage: build
+  script:
+    - mvn $MAVEN_CLI_OPTS compile
+
+test:11:
+  image: maven:3-eclipse-temurin-11
+  stage: test
+  before_script:
+    - ./ci/run_tcpdump.sh
+  script:
+    - mvn $MAVEN_CLI_OPTS verify -Dmaven.javadoc.skip=true
+  after_script:
+    - ./ci/stop_tcpdump.sh
+
+  artifacts:
+    when: always
+    expire_in: 4 weeks
+    paths:
+      - udp_traffic.pcap
+      - ./**/target/surefire-reports/TEST-*.xml
+      - ./**/target/failsafe-reports/TEST-*.xml
+      - ./**/target/test.log
+    reports:
+      junit:
+        - ./**/target/surefire-reports/TEST-*.xml
+        - ./**/target/failsafe-reports/TEST-*.xml
+
+test:17:
+  image: maven:3-eclipse-temurin-17
+  stage: test
+  before_script:
+    - ./ci/run_tcpdump.sh
+  script:
+    - mvn $MAVEN_CLI_OPTS verify
+  after_script:
+    - ./ci/stop_tcpdump.sh
+
+  artifacts:
+    when: always
+    expire_in: 4 weeks
+    paths:
+      - udp_traffic.pcap
+      - ./**/target/surefire-reports/TEST-*.xml
+      - ./**/target/failsafe-reports/TEST-*.xml
+      - ./**/target/test.log
+    reports:
+      junit:
+        - ./**/target/surefire-reports/TEST-*.xml
+        - ./**/target/failsafe-reports/TEST-*.xml
+
+
+deploy_snapshot:
+  image: maven:3-eclipse-temurin-17
+  stage: deploy
+  before_script:
+    - ./ci/setup_gpg.sh
+  script:
+    # skipTests compiles the tests, but does not execute them
+    - mvn $MAVEN_CLI_OPTS -DskipTests=true deploy -Pdeploy
+  environment:
+    name: ossrh_snapshots
+    url: https://oss.sonatype.org/content/repositories/snapshots
+  only:
+    - develop
+  except:
+    variables:
+      - $NIGHTLY_TEST

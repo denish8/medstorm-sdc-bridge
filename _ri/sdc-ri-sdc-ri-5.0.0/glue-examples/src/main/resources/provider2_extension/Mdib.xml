@@ -1,0 +1,24 @@
+<msg:GetMdibResponse xmlns:myext="http://biceps.extension" xmlns:msg="http://standards.ieee.org/downloads/11073/11073-10207-2017/message" xmlns:pm="http://standards.ieee.org/downloads/11073/11073-10207-2017/participant" SequenceId="urn:uuid:1d1d548e-209b-44d3-b444-318a02518a02">
+	<msg:Mdib xmlns:ext="http://standards.ieee.org/downloads/11073/11073-10207-2017/extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" SequenceId="urn:uuid:1d1d548e-209b-44d3-b444-318a02518a02">
+		<pm:MdDescription DescriptionVersion="0">
+			<pm:Mds Handle="mds0" DescriptorVersion="0" SafetyClassification="MedA" xsi:type="pm:MdsDescriptor">
+				<ext:Extension>
+					<myext:MyDescriptorExtension Value="A value" ext:MustUnderstand="true">
+						<myext:KeyType Code="123456"/>
+					</myext:MyDescriptorExtension>
+				</ext:Extension>
+				<pm:Type Code="130535"/>
+				<pm:Vmd Handle="vmd0" SafetyClassification="MedA" xsi:type="pm:VmdDescriptor">
+					<pm:Channel Handle="ch0.vmd0" SafetyClassification="MedA" xsi:type="pm:ChannelDescriptor">
+						<pm:Metric Handle="numeric.ch0.vmd0" DescriptorVersion="0" SafetyClassification="MedA" MetricCategory="Set" MetricAvailability="Intr" Resolution="0.1" xsi:type="pm:NumericMetricDescriptor">
+							<pm:Type Code="196174"/>
+							<pm:Unit Code="262656"/>
+							<pm:TechnicalRange Lower="1" Upper="100" StepWidth="1"/>
+						</pm:Metric>
+					</pm:Channel>
+				</pm:Vmd>
+			</pm:Mds>
+		</pm:MdDescription>
+		<pm:MdState/>
+	</msg:Mdib>
+</msg:GetMdibResponse>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>sdc-ri</artifactId>
+        <groupId>org.somda.sdc</groupId>
+        <version>5.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>dpws</artifactId>
+
+    <name>DPWS</name>
+    <description>
+        Implements a Devices Profile for Web-Services (DPWS) 1.1 framework.
+    </description>
+    <url>http://www.somda.org</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>David Gregorczyk</name>
+            <email>david.gregorczyk@web.de</email>
+            <organizationUrl>https://gitlab.com/d.gregorczyk</organizationUrl>
+        </developer>
+        <developer>
+            <name>Lukas Deichmann</name>
+            <email>lukasdeichmann@gmail.com</email>
+            <organizationUrl>https://gitlab.com/ldeichmann</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://gitlab.com/sdc-suite/sdc-ri.git</connection>
+        <developerConnection>scm:git:git://gitlab.com/sdc-suite/sdc-ri.git</developerConnection>
+        <url>https://gitlab.com/sdc-suite/sdc-ri/-/tree/develop</url>
+      <tag>sdc-ri-5.0.0</tag>
+  </scm>
+
+    <properties>
+        <directories.sourceFiles>${project.basedir}/src/main/java</directories.sourceFiles>
+        <it.somda.sdc.dpws.xmlSchemaDirectory>${basedir}/src/test/resources/it/org/somda/sdc/dpws
+        </it.somda.sdc.dpws.xmlSchemaDirectory>
+        <it.somda.sdc.dpws.generatedSources>${project.build.directory}/generated-sources
+        </it.somda.sdc.dpws.generatedSources>
+        <it.somda.sdc.dpws.serviceSchema>TestServiceSchema.xsd</it.somda.sdc.dpws.serviceSchema>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.somda.sdc</groupId>
+            <artifactId>dpws-model</artifactId>
+            <version>${riModelVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.somda.sdc</groupId>
+            <artifactId>common</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.somda.sdc</groupId>
+            <artifactId>test</artifactId>
+            <version>5.0.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.14</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.13.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-server -->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>11.0.16</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-servlet -->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-servlet</artifactId>
+            <version>11.0.16</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/net.sourceforge.jregex/jregex -->
+        <dependency>
+            <groupId>net.sourceforge.jregex</groupId>
+            <artifactId>jregex</artifactId>
+            <version>1.2_01</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${mavenJarPluginVersion}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${failsafePluginVersion}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

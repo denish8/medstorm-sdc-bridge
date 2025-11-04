@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://biceps.extension" xmlns:pm="http://standards.ieee.org/downloads/11073/11073-10207-2017/participant">
+	<xs:import namespace="http://standards.ieee.org/downloads/11073/11073-10207-2017/participant" schemaLocation="../../../../../biceps-model/src/main/resources/BICEPS_ParticipantModel.xsd"/>
+	<xs:element name="MyStateExtension">
+		<xs:annotation>
+			<xs:documentation>This is a simple extension supposed to be somewhere below the BICEPS MdState.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<!-- Needed to add ext:MustUnderstand -->
+					<xs:anyAttribute namespace="##other" processContents="skip"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MyDescriptorExtension">
+		<xs:annotation>
+			<xs:documentation>This is a complex extension supposed to be somewhere below the BICEPS MdDescription.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="KeyType" minOccurs="1" maxOccurs="1" type="pm:CodedValue"/>
+			</xs:sequence>
+			<xs:attribute name="Value" type="xs:string" use="required"/>
+
+			<!-- Needed to add ext:MustUnderstand -->
+			<xs:anyAttribute namespace="##other" processContents="skip"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

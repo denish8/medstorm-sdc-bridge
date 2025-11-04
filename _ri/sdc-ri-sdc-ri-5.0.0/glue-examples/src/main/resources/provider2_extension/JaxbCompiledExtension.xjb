@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xjb:bindings xmlns:xjb="http://java.sun.com/xml/ns/jaxb" version="2.1">
+	<xjb:bindings schemaLocation="JaxbCompiledExtension.xsd">
+		<!-- Put elements to package org.somda.sdc.glue.examples.extension. -->
+		<xjb:schemaBindings>
+			<xjb:package name="org.somda.sdc.glue.examples.extension"/>
+		</xjb:schemaBindings>
+	</xjb:bindings>
+</xjb:bindings>

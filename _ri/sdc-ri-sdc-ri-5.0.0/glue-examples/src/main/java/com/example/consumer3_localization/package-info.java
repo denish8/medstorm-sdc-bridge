@@ -1,0 +1,4 @@
+@ParametersAreNonnullByDefault
+package com.example.consumer3_localization;
+
+import javax.annotation.ParametersAreNonnullByDefault;

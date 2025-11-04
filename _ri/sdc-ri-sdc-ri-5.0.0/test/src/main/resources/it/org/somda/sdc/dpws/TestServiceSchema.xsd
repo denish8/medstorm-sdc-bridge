@@ -1,0 +1,27 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://dpws-test-service/messages/2017/05/10"
+            elementFormDefault="qualified" attributeFormDefault="unqualified" xml:lang="en">
+    <xsd:element name="TestOperationRequest">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Param1" type="xsd:string"/>
+                <xsd:element name="Param2" type="xsd:int"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="TestOperationResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Result1" type="xsd:string"/>
+                <xsd:element name="Result2" type="xsd:int"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="TestNotification">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Param1" type="xsd:string"/>
+                <xsd:element name="Param2" type="xsd:int"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>
