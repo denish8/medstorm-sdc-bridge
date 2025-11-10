@@ -13,11 +13,16 @@ import org.somda.sdc.dpws.http.HttpHandler;
 import org.somda.sdc.dpws.http.jetty.JettyHttpServerHandler;
 import org.somda.sdc.dpws.http.jetty.factory.JettyHttpServerHandlerFactory;
 
-final class MedstormJettyFactoryOverride extends AbstractModule {
+/**
+ * Overrides the default Jetty handler factory so we never pass null
+ * CommunicationLog/CommunicationLogContext to JettyHttpServerHandler's ctor.
+ */
+public final class MedstormJettyFactoryOverride extends AbstractModule {
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     JettyHttpServerHandlerFactory provideJettyHttpServerHandlerFactory(
-            // fallbacks from your config module (non-null no-ops)
+            // fallbacks coming from MedstormSdcriConfigModule providers (non-null no-ops)
             CommunicationLog fallbackLog,
             CommunicationLogContext fallbackCtx,
             @Named("Common.InstanceIdentifier") String frameworkId,
@@ -27,9 +32,11 @@ final class MedstormJettyFactoryOverride extends AbstractModule {
         final boolean chunked = Boolean.TRUE.equals(chunkedTransfer);
         final String cs = (charset == null ? "UTF-8" : charset);
 
-        return (String mediaType, HttpHandler httpHandler,
-                CommunicationLog commLog, CommunicationLogContext commCtx) ->
-                constructJettyHandler(
+        // Return a factory that replaces nulls with our fallbacks and calls the ctor reflectively.
+        return (String mediaType,
+                HttpHandler httpHandler,
+                CommunicationLog commLog,
+                CommunicationLogContext commCtx) -> constructJettyHandler(
                         mediaType,
                         httpHandler,
                         (commLog != null ? commLog : fallbackLog),
@@ -50,7 +57,8 @@ final class MedstormJettyFactoryOverride extends AbstractModule {
             String charset
     ) {
         try {
-            // package-private ctor: (String, HttpHandler, CommunicationLog, CommunicationLogContext, String, boolean, String)
+            // package-private ctor signature in SDCri 6.x:
+            // (String, HttpHandler, CommunicationLog, CommunicationLogContext, String, boolean, String)
             Constructor<JettyHttpServerHandler> ctor =
                     JettyHttpServerHandler.class.getDeclaredConstructor(
                             String.class,

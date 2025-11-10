@@ -17,3 +17,9 @@ sdc:
     keystorePassword: "changeit"
     truststore: "C:/MedStorm/sdc-bridge/certs/truststore.jks"
     truststorePassword: "changeit"
+
+
+logging:
+  level:
+    org.somda.sdc.dpws.soap.wseventing: DEBUG
+    org.somda.sdc.dpws: DEBUG
