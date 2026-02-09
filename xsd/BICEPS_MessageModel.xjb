@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xjb:bindings xmlns:xjb="https://jakarta.ee/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="3.0">
+	<xjb:bindings schemaLocation="BICEPS_MessageModel.xsd">
+		<!-- Put Message Model elements to package org.somda.sdc.biceps.model.message. -->
+		<xjb:schemaBindings>
+			<xjb:package name="org.somda.sdc.biceps.model.message"/>
+		</xjb:schemaBindings>
+	</xjb:bindings>
+</xjb:bindings>

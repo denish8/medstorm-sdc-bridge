@@ -25,7 +25,7 @@ public class Udp3702Logger {
 
     // your SDC host that appears in the logs
     // if you change IP later, change it here too
-    private static final String LOCAL_IP = "192.168.10.134";
+    private static final String LOCAL_IP = "192.168.0.5";
 
     private static final String MULTICAST_ADDR = "239.255.255.250";
     private static final int PORT = 3702;

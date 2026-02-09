@@ -1,0 +1,15 @@
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope"
+            xmlns:wsa="http://www.w3.org/2005/08/addressing"
+            xmlns:msg="http://standards.ieee.org/downloads/11073/11073-10207-2017/message">
+  <s:Header>
+    <wsa:Action s:mustUnderstand="1">http://standards.ieee.org/downloads/11073/11073-20701-2018/GetService/GetMdib</wsa:Action>
+    <wsa:MessageID>urn:uuid:095f5c50-588a-4417-972f-0ffa88affcd9</wsa:MessageID>
+    <wsa:To s:mustUnderstand="1">http://10.120.5.174:53200/a1d4cabe-e160-4e66-b566-cf78fdf9e249/HighPriorityServices</wsa:To>
+    <wsa:ReplyTo>
+      <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
+    </wsa:ReplyTo>
+  </s:Header>
+  <s:Body>
+    <msg:GetMdib/>
+  </s:Body>
+</s:Envelope>

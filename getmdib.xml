@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<s12:Envelope xmlns:s12="http://www.w3.org/2003/05/soap-envelope"
+              xmlns:wsa="http://www.w3.org/2005/08/addressing"
+              xmlns:msg="http://standards.ieee.org/downloads/11073/11073-10207-2017/message">
+  <s12:Header>
+    <wsa:Action s12:mustUnderstand="1">http://standards.ieee.org/downloads/11073/11073-20701-2018/GetService/GetMdib</wsa:Action>
+    <wsa:MessageID>urn:uuid:9d4b61e6-0b4d-4244-aa19-77c0f4715d6d</wsa:MessageID>
+
+    <!-- IMPORTANT: WS-A To should be anonymous for SOAP-over-HTTP -->
+    <wsa:To s12:mustUnderstand="1">http://www.w3.org/2005/08/addressing/anonymous</wsa:To>
+
+    <wsa:ReplyTo>
+      <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
+    </wsa:ReplyTo>
+  </s12:Header>
+
+  <s12:Body>
+    <msg:GetMdib/>
+  </s12:Body>
+</s12:Envelope>

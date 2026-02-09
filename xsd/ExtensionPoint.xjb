@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xjb:bindings xmlns:xjb="https://jakarta.ee/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:equals="urn:jaxb.jvnet.org:plugin:equals" version="3.0">
+	<xjb:bindings schemaLocation="ExtensionPoint.xsd">
+	    <xjb:bindings node="xs:complexType[@name='ExtensionType']">
+	        <equals:ignored/>
+	    </xjb:bindings>
+		<!-- Put Extension elements to package org.somda.sdc.biceps.model.extension. -->
+		<xjb:schemaBindings>
+			<xjb:package name="org.somda.sdc.biceps.model.extension"/>
+		</xjb:schemaBindings>
+	</xjb:bindings>
+</xjb:bindings>

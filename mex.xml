@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<s12:Envelope xmlns:s12="http://www.w3.org/2003/05/soap-envelope"
+              xmlns:wsa="http://www.w3.org/2005/08/addressing"
+              xmlns:wsm="http://schemas.xmlsoap.org/ws/2004/09/mex">
+  <s12:Header>
+    <wsa:Action>http://schemas.xmlsoap.org/ws/2004/09/mex/GetMetadata/Request</wsa:Action>
+    <wsa:To>http://10.120.5.174:53200/a1d4cabe-e160-4e66-b566-cf78fdf9e249/HighPriorityServices</wsa:To>
+    <wsa:MessageID>urn:uuid:2836de07-201e-4483-9e91-020746af904c</wsa:MessageID>
+    <wsa:ReplyTo>
+      <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
+    </wsa:ReplyTo>
+  </s12:Header>
+  <s12:Body>
+    <wsm:GetMetadata/>
+  </s12:Body>
+</s12:Envelope>

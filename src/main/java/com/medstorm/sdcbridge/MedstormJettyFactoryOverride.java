@@ -4,25 +4,31 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-
-import java.lang.reflect.Constructor;
-
 import org.somda.sdc.dpws.CommunicationLog;
 import org.somda.sdc.dpws.CommunicationLogContext;
 import org.somda.sdc.dpws.http.HttpHandler;
+import org.somda.sdc.dpws.http.HttpServerRegistry;
 import org.somda.sdc.dpws.http.jetty.JettyHttpServerHandler;
 import org.somda.sdc.dpws.http.jetty.factory.JettyHttpServerHandlerFactory;
 
+import java.lang.reflect.Constructor;
+
 /**
- * Overrides the default Jetty handler factory so we never pass null
- * CommunicationLog/CommunicationLogContext to JettyHttpServerHandler's ctor.
+ * 1) Forces DPWS to use our HttpServerRegistry that normalizes ":0" -> configured port.
+ * 2) Overrides Jetty handler factory so we never pass null CommunicationLog/Context.
  */
 public final class MedstormJettyFactoryOverride extends AbstractModule {
+
+    @Override
+    protected void configure() {
+        bind(HttpServerRegistry.class)
+                .to(MedstormHttpServerRegistryOverride.class)
+                .in(Singleton.class);
+    }
 
     @Provides
     @Singleton
     JettyHttpServerHandlerFactory provideJettyHttpServerHandlerFactory(
-            // fallbacks coming from MedstormSdcriConfigModule providers (non-null no-ops)
             CommunicationLog fallbackLog,
             CommunicationLogContext fallbackCtx,
             @Named("Common.InstanceIdentifier") String frameworkId,
@@ -32,19 +38,18 @@ public final class MedstormJettyFactoryOverride extends AbstractModule {
         final boolean chunked = Boolean.TRUE.equals(chunkedTransfer);
         final String cs = (charset == null ? "UTF-8" : charset);
 
-        // Return a factory that replaces nulls with our fallbacks and calls the ctor reflectively.
         return (String mediaType,
                 HttpHandler httpHandler,
                 CommunicationLog commLog,
                 CommunicationLogContext commCtx) -> constructJettyHandler(
-                        mediaType,
-                        httpHandler,
-                        (commLog != null ? commLog : fallbackLog),
-                        (commCtx != null ? commCtx : fallbackCtx),
-                        frameworkId,
-                        chunked,
-                        cs
-                );
+                mediaType,
+                httpHandler,
+                (commLog != null ? commLog : fallbackLog),
+                (commCtx != null ? commCtx : fallbackCtx),
+                frameworkId,
+                chunked,
+                cs
+        );
     }
 
     private static JettyHttpServerHandler constructJettyHandler(
@@ -57,8 +62,6 @@ public final class MedstormJettyFactoryOverride extends AbstractModule {
             String charset
     ) {
         try {
-            // package-private ctor signature in SDCri 6.x:
-            // (String, HttpHandler, CommunicationLog, CommunicationLogContext, String, boolean, String)
             Constructor<JettyHttpServerHandler> ctor =
                     JettyHttpServerHandler.class.getDeclaredConstructor(
                             String.class,

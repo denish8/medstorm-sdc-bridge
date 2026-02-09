@@ -1,0 +1,7 @@
+HTTP/1.1 500 Server Error
+Date: Thu, 05 Feb 2026 21:06:43 GMT
+Content-Type: application/soap+xml;charset=utf-8
+X-Server: SDCri
+Content-Length: 1177
+Server: Jetty(11.0.24)
+
