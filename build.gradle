@@ -4,34 +4,39 @@ plugins {
   id 'io.spring.dependency-management' version '1.1.5'
 }
 
-group = 'com.medstorm'
-version = '0.0.1-SNAPSHOT'
+// Applies to the Spring app AND to the reusable sdc-core / sdc-jaxb-compat
+// libraries. Only repositories and version pins live here - no plugins, so the
+// library modules stay free of the Spring Boot plugin.
+allprojects {
+  group = 'com.medstorm'
+  version = '0.0.1-SNAPSHOT'
 
-java {
-  sourceCompatibility = JavaVersion.VERSION_17
-}
+  repositories {
+    mavenCentral()
+  }
 
-repositories {
-  mavenCentral()
-}
+  configurations.configureEach {
+    // remove noisy warning + avoid spring-jcl clashes
+    exclude group: 'commons-logging', module: 'commons-logging'
 
-configurations.configureEach {
-  // remove noisy warning + avoid spring-jcl clashes
-  exclude group: 'commons-logging', module: 'commons-logging'
+    resolutionStrategy {
+      // JAXB pins
+      force 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'
+      force 'org.glassfish.jaxb:jaxb-runtime:4.0.5'
+      force 'jakarta.activation:jakarta.activation-api:2.1.3'
 
-  resolutionStrategy {
-    // JAXB pins
-    force 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'
-    force 'org.glassfish.jaxb:jaxb-runtime:4.0.5'
-    force 'jakarta.activation:jakarta.activation-api:2.1.3'
-
-    // ✅ hard pin Jetty to 11.0.24 (SDCri dpws-6.0.0 breaks on Jetty 12)
-    eachDependency { details ->
-      if (details.requested.group == 'org.eclipse.jetty') {
-        details.useVersion '11.0.24'
+      // ✅ hard pin Jetty to 11.0.24 (SDCri dpws-6.0.0 breaks on Jetty 12)
+      eachDependency { details ->
+        if (details.requested.group == 'org.eclipse.jetty') {
+          details.useVersion '11.0.24'
+        }
       }
     }
   }
+}
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_17
 }
 
 dependencyManagement {
@@ -42,6 +47,10 @@ dependencyManagement {
 }
 
 dependencies {
+  // The reusable SDC runtime. Everything Spring-free and device-agnostic lives
+  // here; this app module is now only the Spring wiring + PainSensor specifics.
+  implementation project(':sdc-core')
+
   implementation('org.springframework.boot:spring-boot-starter-web') {
     exclude group: 'commons-logging', module: 'commons-logging'
   }
@@ -101,14 +110,19 @@ tasks.named('bootJar') {
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
-// ✅ Build-time guard: fail if bootJar contains any non-6.0.0 SDC jars
+// ✅ Build-time guard: fail if bootJar contains any non-6.0.0 upstream SDC jars.
+// Our own modules (sdc-core, sdc-jaxb-compat) carry the project version, not the
+// SDC-ri version, so they are excluded by name rather than by version.
 tasks.register('verifyBootLibs') {
   dependsOn tasks.named('bootJar')
+  def ownModulePrefixes = rootProject.allprojects.collect { "${it.name}-".toString() }
   doLast {
     def jarFile = tasks.named('bootJar').get().archiveFile.get().asFile
     def libs = zipTree(jarFile).matching { include 'BOOT-INF/lib/*.jar' }.files.collect { it.name }
 
-    def suspects = libs.findAll { n ->
+    def ours = libs.findAll { n -> ownModulePrefixes.any { p -> n.startsWith(p) } }
+
+    def suspects = (libs - ours).findAll { n ->
       n.toLowerCase().contains('sdc') ||
       n.toLowerCase().contains('dpws') ||
       n.toLowerCase().contains('biceps') ||
@@ -120,7 +134,8 @@ tasks.register('verifyBootLibs') {
       throw new GradleException("Non-6.0.0 SDC jars found in BOOT-INF/lib: " + bad)
     }
 
-    println "[verifyBootLibs] OK. SDC-related libs: " + suspects
+    println "[verifyBootLibs] OK. Upstream SDC-ri libs: " + suspects.sort()
+    println "[verifyBootLibs] Own modules bundled:     " + ours.sort()
   }
 }
 

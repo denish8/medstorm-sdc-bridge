@@ -1,5 +1,6 @@
 rootProject.name = "sdc-bridge"
 
-
-include 'jaxb-compat'
-
+// Reusable, framework-agnostic libraries. Neither depends on Spring or on any
+// pain-sensor / Medstorm device logic; both are intended to be publishable.
+include 'sdc-jaxb-compat'
+include 'sdc-core'

@@ -1,0 +1,32 @@
+plugins {
+  id 'java-library'
+}
+
+description = '''JAXB 2 -> 4 compatibility shim.
+
+SDC-ri 6.0.0's generated model classes reference org.jvnet.jaxb.* types that
+jaxb2-basics-runtime 0.6.4 only publishes under the older org.jvnet.jaxb2_commons.*
+names. Without these bridging types SDC-ri fails at class-load time on a
+Jakarta (jakarta.xml.bind) classpath.
+
+Pure glue: no logic, no configuration, no device knowledge.'''
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
+  withSourcesJar()
+}
+
+dependencies {
+  // Both are 'api': consumers link against these types directly.
+  api 'org.jvnet.jaxb2_commons:jaxb2-basics-runtime:0.6.4'
+  api 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'
+
+  // This module straddles the javax/jakarta split on purpose: jaxb2-basics-runtime's
+  // org.jvnet.jaxb2_commons.locator.ObjectLocator implements the *javax*
+  // ValidationEventLocator, so the legacy API must be present to compile against
+  // it and to load it. It is deliberately not 'api' - nothing downstream should
+  // program against javax.xml.bind.
+  compileOnly 'javax.xml.bind:jaxb-api:2.3.1'
+  runtimeOnly 'javax.xml.bind:jaxb-api:2.3.1'
+}

@@ -1,0 +1,87 @@
+plugins {
+  id 'java-library'
+}
+
+description = '''SDC provider runtime.
+
+Everything needed to stand up an IEEE 11073 SDC / DPWS provider on top of
+SDC-ri 6.0.0, with none of the integration pain: NIC resolution, HTTP server
+port normalisation, Jetty 11 wiring, JAXB context paths, provider-only Guice
+composition and WS-Eventing compatibility patches.
+
+Contains ZERO Spring and ZERO device-specific logic - see the verifyNoSpring
+task, which fails the build if a Spring artifact ever reaches the runtime
+classpath.'''
+
+java {
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
+  withSourcesJar()
+}
+
+dependencies {
+  api project(':sdc-jaxb-compat')
+
+  // SDC-ri 6.0.0 (MIT), resolved from Maven Central.
+  // Pinned: the compatibility patches in this module are calibrated to 6.0.0.
+  api 'org.somda.sdc:common:6.0.0'
+  api 'org.somda.sdc:dpws:6.0.0'
+  api 'org.somda.sdc:biceps:6.0.0'
+  api 'org.somda.sdc:glue:6.0.0'
+
+  // Guice is part of this module's surface today: callers receive an Injector.
+  // Hiding it behind the fluent API is tracked as the next step.
+  api 'com.google.inject:guice:5.1.0'
+  api 'com.google.inject.extensions:guice-assistedinject:5.1.0'
+  api 'org.slf4j:slf4j-api:2.0.13'
+  implementation 'com.google.guava:guava:32.1.3-jre'
+
+  // Jetty 11 - SDC-ri 6.0.0's DPWS layer does not work on Jetty 12.
+  // The root build applies a resolutionStrategy force to hold this line.
+  implementation 'org.eclipse.jetty:jetty-util:11.0.24'
+  implementation 'org.eclipse.jetty:jetty-server:11.0.24'
+  implementation 'org.eclipse.jetty:jetty-http:11.0.24'
+  implementation 'org.eclipse.jetty:jetty-io:11.0.24'
+  implementation 'org.eclipse.jetty:jetty-security:11.0.24'
+  implementation 'org.eclipse.jetty.toolchain:jetty-jakarta-servlet-api:5.0.2'
+
+  // SDC-ri DPWS expects Apache HttpClient 4.x (org.apache.http.client.HttpClient)
+  implementation 'org.apache.httpcomponents:httpclient:4.5.14'
+  implementation 'org.apache.httpcomponents:httpcore:4.4.16'
+
+  api 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'
+  runtimeOnly 'org.glassfish.jaxb:jaxb-runtime:4.0.5'
+  implementation 'jakarta.activation:jakarta.activation-api:2.1.3'
+
+  implementation 'org.apache.commons:commons-lang3:3.14.0'
+  implementation 'com.google.code.findbugs:jsr305:3.0.2'
+  compileOnly 'javax.inject:javax.inject:1'
+  compileOnly 'javax.annotation:javax.annotation-api:1.3.2'
+  compileOnly 'org.jspecify:jspecify:1.0.0'
+  compileOnly 'javax.xml.bind:jaxb-api:2.3.1'
+}
+
+/**
+ * The whole point of this module is that a customer on plain Java, Quarkus or
+ * their own framework can use it. Assert that mechanically rather than trusting
+ * review: any Spring artifact on the runtime classpath fails the build.
+ */
+tasks.register('verifyNoSpring') {
+  dependsOn configurations.runtimeClasspath
+  doLast {
+    def offenders = configurations.runtimeClasspath.resolvedConfiguration.resolvedArtifacts
+        .collect { "${it.moduleVersion.id.group}:${it.moduleVersion.id.name}" }
+        .findAll { it.startsWith('org.springframework') }
+        .unique()
+        .sort()
+    if (!offenders.isEmpty()) {
+      throw new GradleException(
+        "sdc-core must have ZERO Spring dependencies, but found: ${offenders}")
+    }
+    println "[verifyNoSpring] OK - no Spring artifacts on sdc-core's runtime classpath"
+  }
+}
+
+tasks.named('check') {
+  dependsOn tasks.named('verifyNoSpring')
+}
