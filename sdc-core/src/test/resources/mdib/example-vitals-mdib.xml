@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Minimal, device-neutral MDIB used by sdc-core's tests.
+
+  Deliberately generic: three numeric metrics and one string metric on a single
+  channel. It exercises both metric write paths and the "create single state if
+  missing" path (no states are declared for the MDS, VMD, channel, clock or
+  context descriptors).
+
+  Also serves as a worked example of the smallest MDIB a provider can usefully
+  publish. The document is a GetMdibResponse - the same shape a consumer
+  receives on the wire - so a captured response can be reused as an initial MDIB.
+-->
+<msg:GetMdibResponse xmlns:msg="http://standards.ieee.org/downloads/11073/11073-10207-2017/message"
+  xmlns:pm="http://standards.ieee.org/downloads/11073/11073-10207-2017/participant"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  SequenceId="urn:oid:sdc-core-test-seq-1">
+  <msg:Mdib SequenceId="urn:oid:sdc-core-test-seq-1">
+    <pm:MdDescription>
+      <pm:Mds Handle="mds0" SafetyClassification="MedA">
+        <pm:SystemContext Handle="SC.mds0">
+          <pm:PatientContext Handle="PC.mds0" SafetyClassification="MedA"/>
+          <pm:LocationContext Handle="LC.mds0"/>
+        </pm:SystemContext>
+        <pm:Clock Handle="CL.mds0" Resolution="PT0.001S" SafetyClassification="Inf"/>
+        <pm:Vmd Handle="vmd.vitals" SafetyClassification="MedA">
+          <pm:Channel Handle="ch.vitals" SafetyClassification="MedA">
+            <pm:Metric Handle="numeric.hr" SafetyClassification="MedA" xsi:type="pm:NumericMetricDescriptor"
+                       MetricCategory="Msrmt" MetricAvailability="Cont" Resolution="1">
+              <pm:Unit Code="262688"/>
+              <pm:TechnicalRange Lower="0" Upper="300" StepWidth="1"/>
+            </pm:Metric>
+            <pm:Metric Handle="numeric.spo2" SafetyClassification="MedA" xsi:type="pm:NumericMetricDescriptor"
+                       MetricCategory="Msrmt" MetricAvailability="Cont" Resolution="1">
+              <pm:Unit Code="262688"/>
+              <pm:TechnicalRange Lower="0" Upper="100" StepWidth="1"/>
+            </pm:Metric>
+            <pm:Metric Handle="numeric.temp" SafetyClassification="MedA" xsi:type="pm:NumericMetricDescriptor"
+                       MetricCategory="Msrmt" MetricAvailability="Cont" Resolution="0.1">
+              <pm:Unit Code="268192"/>
+              <pm:TechnicalRange Lower="0" Upper="50" StepWidth="0.1"/>
+            </pm:Metric>
+            <pm:Metric Handle="string.status" SafetyClassification="Inf" xsi:type="pm:StringMetricDescriptor"
+                       MetricCategory="Msrmt" MetricAvailability="Cont">
+              <pm:Unit Code="262656"/>
+            </pm:Metric>
+          </pm:Channel>
+        </pm:Vmd>
+      </pm:Mds>
+    </pm:MdDescription>
+    <pm:MdState>
+      <pm:State DescriptorHandle="numeric.hr"    xsi:type="pm:NumericMetricState"/>
+      <pm:State DescriptorHandle="numeric.spo2"  xsi:type="pm:NumericMetricState"/>
+      <pm:State DescriptorHandle="numeric.temp"  xsi:type="pm:NumericMetricState"/>
+      <pm:State DescriptorHandle="string.status" xsi:type="pm:StringMetricState"/>
+    </pm:MdState>
+  </msg:Mdib>
+</msg:GetMdibResponse>
