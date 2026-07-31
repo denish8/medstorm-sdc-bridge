@@ -31,6 +31,8 @@ import com.google.inject.Singleton;
 
 
 
+import com.medstorm.sdc.core.net.NetworkInterfaceResolver;
+
 import com.google.inject.matcher.AbstractMatcher;
 import com.google.inject.matcher.Matchers;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -130,11 +132,16 @@ bind(Boolean.class).annotatedWith(Names.named("SoapConfig.ValidateSoapMessages")
         final String nicHint = System.getProperty("sdc.nic", "").trim();
         final int httpPort = parseIntOr(System.getProperty("Dpws.HttpServerPort", ""), DEFAULT_HTTP_PORT);
 
-        final NetworkInterface nic = resolveNic(nicHint).orElseThrow(() ->
-                new IllegalStateException("Could not resolve NetworkInterface from sdc.nic='" + nicHint + "'"));
+        final NetworkInterface nic = NetworkInterfaceResolver.resolve(nicHint).orElseThrow(() ->
+                new IllegalStateException("Could not resolve a usable network interface from sdc.nic='"
+                        + nicHint + "'. Usable interfaces on this host: "
+                        + NetworkInterfaceResolver.describeUsableInterfaces()));
 
-        final InetAddress ipv4 = firstIpv4(nic).orElseThrow(() ->
-                new IllegalStateException("No IPv4 address found on NIC '" + nic.getName() + "'"));
+        // The resolver only returns interfaces that hold an IPv4 address, so this is a
+        // guard against a NIC being reconfigured between resolution and use, not the
+        // routine "wrong adapter picked" failure it used to be.
+        final InetAddress ipv4 = NetworkInterfaceResolver.firstIpv4(nic).orElseThrow(() ->
+                new IllegalStateException("NIC '" + nic.getName() + "' lost its IPv4 address during startup"));
 
         final String nicName = nic.getName();
         final String ip = ipv4.getHostAddress();
@@ -528,65 +535,6 @@ bind(Duration.class).annotatedWith(Names.named("SdcGlue.Consumer.WatchdogPeriod"
 
 
 
-//: make resolveNic accept “Wi-Fi”, “wifi”, partial matches, etc.
-
-private static Optional<NetworkInterface> resolveNic(String hintRaw) {
-    final String hint = (hintRaw == null ? "" : hintRaw.trim());
-    if (hint.isEmpty()) return Optional.empty();
-
-    final String h = hint.toLowerCase(Locale.ROOT);
-
-    // 1) Exact by interface name (e.g. "wlan0")
-    try {
-        NetworkInterface byName = NetworkInterface.getByName(hint);
-        if (byName != null) return Optional.of(byName);
-    } catch (Exception ignore) { }
-
-    // 2) Exact by display name
-    try {
-        for (NetworkInterface ni : Collections.list(NetworkInterface.getNetworkInterfaces())) {
-            String dn = Optional.ofNullable(ni.getDisplayName()).orElse("");
-            if (dn.equalsIgnoreCase(hint)) return Optional.of(ni);
-        }
-    } catch (SocketException ignore) { }
-
-    // 3) Match by IPv4 literal passed as hint
-    try {
-        for (NetworkInterface ni : Collections.list(NetworkInterface.getNetworkInterfaces())) {
-            for (Enumeration<InetAddress> e = ni.getInetAddresses(); e.hasMoreElements();) {
-                InetAddress a = e.nextElement();
-                if (a instanceof Inet4Address && a.getHostAddress().equals(hint)) return Optional.of(ni);
-            }
-        }
-    } catch (SocketException ignore) { }
-
-    // 4) Windows-friendly: accept "wi-fi"/"wifi"/"wireless" and partial match against name/display
-    try {
-        List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
-
-        // If user typed "wi-fi"/"wifi"/"wireless", prefer the first UP non-loopback interface
-        // whose name is wlan* or whose display contains wifi/wireless.
-        boolean wifiHint = h.equals("wi-fi") || h.equals("wifi") || h.equals("wireless");
-        if (wifiHint) {
-            for (NetworkInterface ni : all) {
-                if (!ni.isUp() || ni.isLoopback()) continue;
-                String name = Optional.ofNullable(ni.getName()).orElse("").toLowerCase(Locale.ROOT);
-                String disp = Optional.ofNullable(ni.getDisplayName()).orElse("").toLowerCase(Locale.ROOT);
-                boolean looksWifi = name.startsWith("wlan") || disp.contains("wi-fi") || disp.contains("wifi") || disp.contains("wireless");
-                if (looksWifi) return Optional.of(ni);
-            }
-        }
-
-        // Otherwise: partial contains match
-        for (NetworkInterface ni : all) {
-            String name = Optional.ofNullable(ni.getName()).orElse("").toLowerCase(Locale.ROOT);
-            String disp = Optional.ofNullable(ni.getDisplayName()).orElse("").toLowerCase(Locale.ROOT);
-            if (name.contains(h) || disp.contains(h)) return Optional.of(ni);
-        }
-    } catch (Exception ignore) { }
-
-    return Optional.empty();
-}
 
 
 
