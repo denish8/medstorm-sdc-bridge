@@ -13,7 +13,6 @@ java {
 
 repositories {
   mavenCentral()
-  flatDir { dirs 'libs', 'libs/sdc-6.0.0', 'libs/legacy' }
 }
 
 configurations.configureEach {
@@ -82,16 +81,14 @@ implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.9.24'
   implementation 'org.glassfish.jaxb:jaxb-runtime:4.0.5'
   implementation 'jakarta.activation:jakarta.activation-api:2.1.3'
 
-  // ✅ ONLY SDC 6.0.0 jars from libs/sdc-6.0.0
-  implementation fileTree(dir: 'libs/sdc-6.0.0', include: ['*-6.0.0.jar'], exclude: [
-    'jaxb2-basics-*.jar',
-    'jaxb2-basics-runtime-*.jar',
-    'jaxb-*.jar',
-    'javax.xml.bind*'
-  ])
+  // ✅ SDC 6.0.0 from Maven Central (was: flatDir fileTree over libs/sdc-6.0.0)
+  implementation 'org.somda.sdc:common:6.0.0'
+  implementation 'org.somda.sdc:dpws:6.0.0'
+  implementation 'org.somda.sdc:biceps:6.0.0'
+  implementation 'org.somda.sdc:glue:6.0.0'
 
   // ✅ legacy basics runtime (only this one)
-  implementation name: 'jaxb2-basics-runtime-0.6.4'
+  implementation 'org.jvnet.jaxb2_commons:jaxb2-basics-runtime:0.6.4'
 
   // compile-time only for javax.* references in shims
   compileOnly 'javax.xml.bind:jaxb-api:2.3.1'
